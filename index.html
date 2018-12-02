@@ -38,9 +38,8 @@
         this.add.image(0, 0, 'space').setOrigin(0, 0);
 
         player = this.physics.add.sprite(100, 100, 'ship');
-        // player = this.physics.add.sprite(100, 450, 'ship');
-        console.log(player);
         player.setScale(0.25, 0.25);
+        player.setDrag(0.99);
 
         cursors = this.input.keyboard.createCursorKeys();
     }
@@ -48,11 +47,16 @@
     function update ()
     {
         if(cursors.up.isDown) {
-            player.setVelocityY(-100);
-        } else if (cursors.down.isDown) {
-            player.setVelocityY(100);
+            this.physics.velocityFromRotation(player.rotation, 200, player.body.acceleration);
         } else {
-            player.setVelocityY(0);
+            player.setAcceleration(0);
+        }
+        if(cursors.left.isDown) {
+            player.body.setAngularVelocity(-100);
+        } else if (cursors.right.isDown) {
+            player.body.setAngularVelocity(100);
+        } else {
+            player.body.setAngularVelocity(0);
         }
     }
     </script>
