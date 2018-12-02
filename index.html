@@ -21,10 +21,14 @@
 
     function preload ()
     {
+        this.load.image('space', 'assets/space.png');
+        this.load.image('ship', 'assets/spaceship.png');
     }
 
     function create ()
     {
+        this.add.image(0, 0, 'space').setOrigin(0, 0);
+        this.add.image(300,300,'ship');
     }
 
     function update ()
