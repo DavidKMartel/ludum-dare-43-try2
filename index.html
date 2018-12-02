@@ -37,8 +37,10 @@
     {
         this.add.image(0, 0, 'space').setOrigin(0, 0);
 
-        player = this.physics.add.sprite(100, 450, 'ship');
+        player = this.physics.add.sprite(100, 100, 'ship');
+        // player = this.physics.add.sprite(100, 450, 'ship');
         console.log(player);
+        player.setScale(0.25, 0.25);
 
         cursors = this.input.keyboard.createCursorKeys();
     }
