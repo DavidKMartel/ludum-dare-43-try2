@@ -29,17 +29,21 @@
 
     function preload ()
     {
-        this.load.image('space', 'assets/space.png');
+        this.load.image('background', 'assets/space.png');
+        this.load.image('stars', 'assets/stars.png');
         this.load.image('ship', 'assets/spaceship.png');
     }
 
     function create ()
     {
-        this.add.image(0, 0, 'space').setOrigin(0, 0);
+        this.add.image(0, 0, 'background').setOrigin(0, 0);
+        this.add.image(0, 0, 'stars').setOrigin(0, 0);
 
         player = this.physics.add.sprite(100, 100, 'ship');
         player.setScale(0.25, 0.25);
         player.setDrag(0.99);
+
+        this.cameras.main.startFollow(player);
 
         cursors = this.input.keyboard.createCursorKeys();
     }
