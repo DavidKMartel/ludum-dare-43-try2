@@ -26,16 +26,38 @@
     var game = new Phaser.Game(config);
     var player;
     var cursors;
+    var spacebar;
+    var random;
+
+    const asteroids = [
+        'card_0000_Layer-7.png',
+        'card_0002_Layer-15.png',
+        'card_0004_Layer-13.png',
+        'card_0006_Layer-11.png',
+        'card_0008_Layer-9.png',
+        'card_0010_Layer-5.png',
+        'card_0012_Layer-1.png',
+        'card_0001_Layer-16.png',
+        'card_0003_Layer-14.png',
+        'card_0005_Layer-12.png',
+        'card_0007_Layer-10.png',
+        'card_0009_Layer-8.png',
+        'card_0011_Layer-4.png',
+    ]
 
     function preload ()
     {
         this.load.image('background', 'assets/space.png');
         this.load.image('stars', 'assets/stars.png');
         this.load.image('ship', 'assets/spaceship.png');
+        asteroids.forEach((e) => {
+            this.load.image(e,'assets/meteor shower/'+e);
+        });
     }
 
     function create ()
     {
+        random = new Phaser.Math.RandomDataGenerator();
         this.add.image(0, 0, 'background').setOrigin(0, 0);
         this.add.image(0, 0, 'stars').setOrigin(0, 0);
 
@@ -46,6 +68,8 @@
         this.cameras.main.startFollow(player);
 
         cursors = this.input.keyboard.createCursorKeys();
+        spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
     }
 
     function update ()
@@ -62,6 +86,24 @@
         } else {
             player.body.setAngularVelocity(0);
         }
+
+        if(Phaser.Input.Keyboard.JustDown(spacebar)) {
+            spawn_asteroid(this, player);
+        }
+    }
+
+    // Spawns a random asteroid around player
+    function spawn_asteroid(self, player) {
+        displacement = new Phaser.Math.Vector2 (Phaser.Math.Between(-1, 1),Phaser.Math.Between(-1, 1));
+        displacement.normalize();
+        displacement.scale(100);
+        offset = new Phaser.Math.Vector2 (Phaser.Math.Between(-400, 400),Phaser.Math.Between(-400, 400));
+        displacement.add(offset);
+
+        var index = random.integerInRange(0,asteroids.length-1);
+
+        var asteroid = self.physics.add.sprite(displacement.x + player.x, displacement.y + player.y, asteroids[index]);
+        console.log(asteroid);
     }
     </script>
 
