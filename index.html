@@ -54,6 +54,7 @@
             this.load.image(e,'assets/meteor shower/'+e);
         });
     }
+    var spawncooldown = 0;
 
     function create ()
     {
@@ -90,20 +91,25 @@
         if(Phaser.Input.Keyboard.JustDown(spacebar)) {
             spawn_asteroid(this, player);
         }
+        spawn_asteroid(this, player);
     }
 
     // Spawns a random asteroid around player
     function spawn_asteroid(self, player) {
-        displacement = new Phaser.Math.Vector2 (Phaser.Math.Between(-1, 1),Phaser.Math.Between(-1, 1));
+        displacement = new Phaser.Math.Vector2 (random.normal(),random.normal());
         displacement.normalize();
-        displacement.scale(100);
+        var dir = displacement.clone();
+        displacement.scale(1000);
         offset = new Phaser.Math.Vector2 (Phaser.Math.Between(-400, 400),Phaser.Math.Between(-400, 400));
         displacement.add(offset);
+
+        var velocity = dir.clone();
+        velocity.scale(Phaser.Math.Between(-100, -400));
 
         var index = random.integerInRange(0,asteroids.length-1);
 
         var asteroid = self.physics.add.sprite(displacement.x + player.x, displacement.y + player.y, asteroids[index]);
-        console.log(asteroid);
+        asteroid.setVelocity(velocity.x, velocity.y);
     }
     </script>
 
