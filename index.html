@@ -70,6 +70,9 @@
 
         cursors = this.input.keyboard.createCursorKeys();
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        for(var i=0; i<10; i++) {
+            spawn_asteroid(this, player);
+        }
 
     }
 
@@ -91,7 +94,12 @@
         if(Phaser.Input.Keyboard.JustDown(spacebar)) {
             spawn_asteroid(this, player);
         }
-        spawn_asteroid(this, player);
+        if(spawncooldown == 0) {
+            spawn_asteroid(this, player);
+            spawncooldown = 100;
+        } else {
+            spawncooldown--;
+        }
     }
 
     // Spawns a random asteroid around player
